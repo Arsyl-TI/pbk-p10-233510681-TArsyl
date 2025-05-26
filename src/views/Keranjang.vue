@@ -6,7 +6,6 @@
 			<div class="cart-items">
 				<!-- Item 1 -->
 				<div class="cart-item">
-					<img src="#" alt="Nasi Goreng" class="item-image">
 					<div class="item-details">
 						<div class="item-name">baju</div>
 						<div class="item-price">Rp 25.000</div>
@@ -21,7 +20,6 @@
 				
 				<!-- Item 2 -->
 				<div class="cart-item">
-					<img src="#" alt="Es Teh" class="item-image">
 					<div class="item-details">
 						<div class="item-name">Pena</div>
 						<div class="item-price">Rp 8.000</div>
@@ -36,7 +34,6 @@
 				
 				<!-- Item 3 -->
 				<div class="cart-item">
-					<img src="#" alt="Sate Ayam" class="item-image">
 					<div class="item-details">
 						<div class="item-name">Buku</div>
 						<div class="item-price">Rp 30.000</div>
@@ -66,23 +63,11 @@
 				
 				<button class="checkout-btn">Lanjut ke Pembayaran</button>
 			</div>
-			
-			<!-- Untuk keranjang kosong -->
-			<!-- <div class="empty-cart">
-				<h3>Keranjang Anda Kosong</h3>
-				<p>Silakan tambahkan menu untuk memulai pesanan</p>
-			</div> -->
 		</div>
 	</main>
 </template>
 
 <style>
- body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0px;
-            background-color: #f5f5f5;
-        }
         .container {
             max-width: 800px;
             margin: 0 auto;
