@@ -14,11 +14,11 @@ const router = createRouter({
         },
         {
             path: '/saldo',
-            component: () => import('../views/saldo.vue')
+            component: () => import('../views/Saldo.vue')
         },
         {
             path: '/search',
-            component: () => import('../views/search.vue')
+            component: () => import('../views/Search.vue')
         },
         {
             path: '/menu',
