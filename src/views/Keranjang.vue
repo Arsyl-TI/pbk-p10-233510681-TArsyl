@@ -6,7 +6,7 @@
 			<div class="cart-items">
 				<!-- Item 1 -->
 				<div class="cart-item">
-					<img src="https://via.placeholder.com/80" alt="Nasi Goreng" class="item-image">
+					<img src="#" alt="Nasi Goreng" class="item-image">
 					<div class="item-details">
 						<div class="item-name">baju</div>
 						<div class="item-price">Rp 25.000</div>
@@ -21,7 +21,7 @@
 				
 				<!-- Item 2 -->
 				<div class="cart-item">
-					<img src="https://via.placeholder.com/80" alt="Es Teh" class="item-image">
+					<img src="#" alt="Es Teh" class="item-image">
 					<div class="item-details">
 						<div class="item-name">Pena</div>
 						<div class="item-price">Rp 8.000</div>
@@ -36,7 +36,7 @@
 				
 				<!-- Item 3 -->
 				<div class="cart-item">
-					<img src="https://via.placeholder.com/80" alt="Sate Ayam" class="item-image">
+					<img src="#" alt="Sate Ayam" class="item-image">
 					<div class="item-details">
 						<div class="item-name">Buku</div>
 						<div class="item-price">Rp 30.000</div>
