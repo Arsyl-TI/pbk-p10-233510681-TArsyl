@@ -1,6 +1,6 @@
 <template>
 	<main id="Home-page">
 		<h1>Home</h1>
-		<p>Halaman Home</p>
+		<p>This is the home page</p>
 	</main>
 </template>
