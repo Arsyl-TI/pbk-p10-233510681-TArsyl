@@ -12,29 +12,41 @@
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link to="/" class="button">
+			<router-link to="/" class="button"  @click="is_expanded = false">
 				<span class="material-icons">home</span>
 				<span class="text">Home</span>
 			</router-link>
-      <router-link to="/search" class="button">
+      		<router-link to="/search" class="button">
 				<span class="material-icons">search</span>
 				<span class="text">Pencarian</span>
 			</router-link>
-      <router-link to="/menu" class="button">
-				<span class="material-icons">menu</span>
-				<span class="text">Menu</span>
+      		<router-link to="/produk" class="button">
+				<span class="material-icons">shopping_bag</span>
+				<span class="text">produk</span>
 			</router-link>
 			<router-link to="/keranjang" class="button">
 				<span class="material-icons">shopping_cart</span>
 				<span class="text">Keranjang Belanja</span>
 			</router-link>
-			<router-link to="/saldo" class="button">
-				<span class="material-icons">wallet</span>
-				<span class="text">Saldo</span>
+			<router-link to="/riwayat-transaksi" class="button">
+				<span class="material-icons">history</span>
+				<span class="text">Transaksi</span>
 			</router-link>
 			<router-link to="/akun" class="button"> 
 				<span class="material-icons">account_circle</span>
 				<span class="text">Akun</span>
+			</router-link>
+			<router-link to="/login" class="button"> 
+				<span class="material-icons">login</span>
+				<span class="text">Login</span>
+			</router-link>
+			<router-link to="/register" class="button"> 
+				<span class="material-icons">add_box</span>
+				<span class="text">Register</span>
+			</router-link>
+			<router-link to="/contact" class="button"> 
+				<span class="material-icons">contacts</span>
+				<span class="text">Contact Us</span>
 			</router-link>
 		</div>
 
