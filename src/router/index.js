@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Akun from '../views/Akun.vue'
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -10,7 +11,8 @@ const router = createRouter({
 		},
         {
             path: '/akun',
-            component: () => import('../views/Akun.vue')
+            component: Akun,
+            name: Akun
         },
         {
             path: '/checkout',
