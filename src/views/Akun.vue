@@ -1,55 +1,51 @@
 <script>
+// src/views/Akun.vue
 import { useUserStore } from '@/stores/userStore'
-import { useTransactionStore } from '@/stores/transactionStore'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import transactionsData from '@/assets/transactions.json'
 
 export default {
   name: 'UserProfile',
   setup() {
     const userStore = useUserStore()
-    const transactionStore = useTransactionStore()
     const router = useRouter()
 
-    onMounted(async () => {
+    onMounted(() => {
       if (!userStore.isAuthenticated) {
         router.push('/login')
-      } else {
-        await transactionStore.fetchTransactions()
       }
     })
+    return { userStore }
     
-    return { userStore, transactionStore }
   },
   data() {
     return {
+      transactions: transactionsData,
       filters: ['All', 'Income', 'Expense'],
       activeFilter: 'All'
     }
   },
   computed: {
     filteredTransactions() {
-      const userTransactions = this.transactionStore.transactions.filter(
-        t => t.userId === this.userStore.user?.id
-      )
-      
       if (this.activeFilter === 'Income') {
-        return userTransactions.filter(t => t.type === 'credit')
+        return this.transactions.filter(t => t.type === 'credit');
       } else if (this.activeFilter === 'Expense') {
-        return userTransactions.filter(t => t.type === 'debit')
+        return this.transactions.filter(t => t.type === 'debit');
       }
-      return userTransactions
+      return this.transactions;
     }
   },
   methods: {
     formatCurrency(value) {
-      return new Intl.NumberFormat('id-ID').format(value)
+      return new Intl.NumberFormat('id-ID').format(value);
     },
     formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' }
-      return new Date(dateString).toLocaleDateString('id-ID', options)
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('id-ID', options);
     }
   }
+  
 }
 </script>
 
