@@ -55,7 +55,7 @@ const router = createRouter({
         },
         {
             path: '/databarang',
-            component: () => import('../views/databarang.vue')
+            component: () => import('../views/Databarang.vue')
         },
 	],
 })
