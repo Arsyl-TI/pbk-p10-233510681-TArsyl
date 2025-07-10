@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://your-real-api.com' 
+    ? 'https://fake-json-chi.vercel.app/posts' 
     : '/api',
   timeout: 5000
 })

@@ -1,37 +1,53 @@
 <script>
 import { useUserStore } from '@/stores/userStore'
-import transactionsData from '@/assets/transactions.json'
+import { useTransactionStore } from '@/stores/transactionStore'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'UserProfile',
   setup() {
     const userStore = useUserStore()
-    return { userStore }
+    const transactionStore = useTransactionStore()
+    const router = useRouter()
+
+    onMounted(async () => {
+      if (!userStore.isAuthenticated) {
+        router.push('/login')
+      } else {
+        await transactionStore.fetchTransactions()
+      }
+    })
+    
+    return { userStore, transactionStore }
   },
   data() {
     return {
-      transactions: transactionsData,
       filters: ['All', 'Income', 'Expense'],
       activeFilter: 'All'
     }
   },
   computed: {
     filteredTransactions() {
+      const userTransactions = this.transactionStore.transactions.filter(
+        t => t.userId === this.userStore.user?.id
+      )
+      
       if (this.activeFilter === 'Income') {
-        return this.transactions.filter(t => t.type === 'credit');
+        return userTransactions.filter(t => t.type === 'credit')
       } else if (this.activeFilter === 'Expense') {
-        return this.transactions.filter(t => t.type === 'debit');
+        return userTransactions.filter(t => t.type === 'debit')
       }
-      return this.transactions;
+      return userTransactions
     }
   },
   methods: {
     formatCurrency(value) {
-      return new Intl.NumberFormat('id-ID').format(value);
+      return new Intl.NumberFormat('id-ID').format(value)
     },
     formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString('id-ID', options);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' }
+      return new Date(dateString).toLocaleDateString('id-ID', options)
     }
   }
 }

@@ -1,6 +1,13 @@
 <script>
+import { useUserStore } from '@/stores/userStore'
+import axios from 'axios'
+
 export default {
   name: 'RegisterPage',
+  setup() {
+    const userStore = useUserStore()
+    return { userStore }
+  },
   data() {
     return {
       form: {
@@ -100,21 +107,33 @@ export default {
       
       return isValid;
     },
-    handleRegister() {
+    async handleRegister() {
       if (this.validateForm()) {
         this.loading = true;
         
-        // Simulate API call
-        setTimeout(() => {
-          console.log('Registration data:', this.form);
-          this.loading = false;
+        try {
+          const userData = {
+            name: `${this.form.firstName} ${this.form.lastName}`,
+            firstName: this.form.firstName,
+            lastName: this.form.lastName,
+            email: this.form.email,
+            username: this.form.username,
+            password: this.form.password,
+            balance: 0,
+            description: 'New user',
+            avatar: 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 70),
+            transactions: []
+          }
           
-          // Redirect after successful registration
-          this.$router.push('/login');
+          await this.userStore.register(userData)
           
-          // Show success message
-          alert('Registration successful! Please login with your credentials.');
-        }, 1500);
+          this.$router.push('/login')
+          alert('Registration successful! Please login with your credentials.')
+        } catch (error) {
+          alert('Registration failed: ' + error.message)
+        } finally {
+          this.loading = false
+        }
       }
     }
   }
@@ -125,7 +144,7 @@ export default {
         <div class="register-container">
             <div class="register-card">
             <div class="register-header">
-                <h2>Create Account</h2>
+                <h2>Buat Akun</h2>
                 <p>Join us today and start your journey</p>
             </div>
             
@@ -137,7 +156,7 @@ export default {
                     type="text" 
                     id="firstName" 
                     v-model="form.firstName" 
-                    placeholder="Enter your first name"
+                    placeholder="Masukkan nama Pertama"
                     required
                     >
                     <span class="error-message" v-if="errors.firstName">{{ errors.firstName }}</span>
@@ -149,7 +168,7 @@ export default {
                     type="text" 
                     id="lastName" 
                     v-model="form.lastName" 
-                    placeholder="Enter your last name"
+                    placeholder="Masukkan nama Terakhir"
                     required
                     >
                     <span class="error-message" v-if="errors.lastName">{{ errors.lastName }}</span>
@@ -162,7 +181,7 @@ export default {
                     type="email" 
                     id="email" 
                     v-model="form.email" 
-                    placeholder="Enter your email"
+                    placeholder="Masukkan email"
                     required
                 >
                 <span class="error-message" v-if="errors.email">{{ errors.email }}</span>
@@ -174,7 +193,7 @@ export default {
                     type="text" 
                     id="username" 
                     v-model="form.username" 
-                    placeholder="Choose a username"
+                    placeholder="Pilih username"
                     required
                 >
                 <span class="error-message" v-if="errors.username">{{ errors.username }}</span>
@@ -187,19 +206,19 @@ export default {
                     type="password" 
                     id="password" 
                     v-model="form.password" 
-                    placeholder="Create password"
+                    placeholder="Buat password"
                     required
                     >
                     <span class="error-message" v-if="errors.password">{{ errors.password }}</span>
                 </div>
                 
                 <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
+                    <label for="confirmPassword">Konfirmasi Password</label>
                     <input 
                     type="password" 
                     id="confirmPassword" 
                     v-model="form.confirmPassword" 
-                    placeholder="Confirm password"
+                    placeholder="Konfirmasi password"
                     required
                     >
                     <span class="error-message" v-if="errors.confirmPassword">{{ errors.confirmPassword }}</span>
@@ -209,7 +228,7 @@ export default {
                 <div class="form-options">
                 <label class="terms-agreement">
                     <input type="checkbox" v-model="form.agreeTerms" required>
-                    I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                    Saya Menyetujui <a href="#" class="terms-link">Ketentuan</a> dan <a href="#" class="terms-link">Peraturan yang berlaku</a>
                 </label>
                 </div>
                 
@@ -219,7 +238,7 @@ export default {
                 </button>
                 
                 <div class="register-footer">
-                <p>Already have an account? <router-link to="/login" class="login-link">Sign in</router-link></p>
+                <p>Sudah punya Akun? <router-link to="/login" class="login-link">Login</router-link></p>
                 </div>
             </form>
             </div>

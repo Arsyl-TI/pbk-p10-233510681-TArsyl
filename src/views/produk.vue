@@ -5,7 +5,7 @@
 			<div class="breadcrumb">
 			<router-link to="/">Home</router-link>
 			<span> / </span>
-			<router-link to="/produk">Products</router-link>
+			<router-link to="/produk">Produk</router-link>
 			<span> / </span>
 			<span>{{ product.name }}</span>
 			</div>

@@ -3,7 +3,7 @@
         <div class="login-container">
             <div class="login-card">
             <div class="login-header">
-                <h2>Welcome Back</h2>
+                <h2>Selamat Datang</h2>
                 <p>Please enter your credentials to login</p>
             </div>
             
@@ -14,7 +14,7 @@
                     type="email" 
                     id="email" 
                     v-model="form.email" 
-                    placeholder="Enter your email"
+                    placeholder="Masukkan email"
                     required
                 >
                 <span class="error-message" v-if="errors.email">{{ errors.email }}</span>
@@ -26,7 +26,7 @@
                     type="password" 
                     id="password" 
                     v-model="form.password" 
-                    placeholder="Enter your password"
+                    placeholder="Masukkan password"
                     required
                 >
                 <span class="error-message" v-if="errors.password">{{ errors.password }}</span>
@@ -36,7 +36,7 @@
                 <label class="remember-me">
                     <input type="checkbox" v-model="form.remember"> Remember me
                 </label>
-                <router-link to="/forgot-password" class="forgot-password">Forgot password?</router-link>
+                <router-link to="/forgot-password" class="forgot-password">Lupa password?</router-link>
                 </div>
                 
                 <button type="submit" class="login-button" :disabled="loading">
@@ -45,7 +45,7 @@
                 </button>
                 
                 <div class="login-footer">
-                <p>Don't have an account? <router-link to="/register">Sign up</router-link></p>
+                <p>Belum punya akun? <router-link to="/register">register</router-link></p>
                 </div>
             </form>
             </div>
@@ -54,8 +54,14 @@
 </template>
 
 <script>
+import { useUserStore } from '@/stores/userStore'
+
 export default {
   name: 'LoginPage',
+  setup() {
+    const userStore = useUserStore()
+    return { userStore }
+  },
   data() {
     return {
       form: {
@@ -93,18 +99,22 @@ export default {
       
       return isValid;
     },
-    handleLogin() {
+    async handleLogin() {
       if (this.validateForm()) {
         this.loading = true;
         
-        // Simulate API call
-        setTimeout(() => {
-          console.log('Login data:', this.form);
-          this.loading = false;
+        try {
+          await this.userStore.login({
+            email: this.form.email,
+            password: this.form.password
+          })
           
-          // Redirect after successful login
-          this.$router.push('/akun');
-        }, 1500);
+          this.$router.push('/akun')
+        } catch (error) {
+          this.errors.password = 'Invalid email or password'
+        } finally {
+          this.loading = false
+        }
       }
     }
   }

@@ -2,8 +2,8 @@
 	<main id="keranjang-page">
         <div class="cart-container">
         <div class="cart-header">
-        <h1>Your Shopping Cart</h1>
-        <p v-if="cartItems.length > 0">{{ cartItems.length }} item(s) in your cart</p>
+        <h1>Keranjang kamu</h1>
+        <p v-if="cartItems.length > 0">{{ cartItems.length }} barang di keranjang</p>
         </div>
 
         <div class="cart-content">
@@ -45,9 +45,9 @@
 
         <div class="empty-cart" v-else>
             <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Empty cart" />
-            <h3>Your cart is empty</h3>
-            <p>Looks like you haven't added any items yet</p>
-            <router-link to="/produk" class="shop-btn">Continue Shopping</router-link>
+            <h3>Keranjang Kosong</h3>
+            <p>Sepertinya Kamu Belum menambahkan Barang</p>
+            <router-link to="/produk" class="shop-btn">Lanjut Belanja</router-link>
         </div>
 
         <div class="cart-summary" v-if="cartItems.length > 0">
@@ -55,17 +55,17 @@
             <h3>Order Summary</h3>
             
             <div class="summary-row">
-                <span>Subtotal</span>
+                <span>total</span>
                 <span>Rp {{ formatPrice(subtotal) }}</span>
             </div>
             
             <div class="summary-row">
-                <span>Shipping</span>
+                <span>Ongkir</span>
                 <span>{{ shippingCost === 0 ? 'Free' : `Rp ${formatPrice(shippingCost)}` }}</span>
             </div>
             
             <div class="summary-row">
-                <span>Tax (10%)</span>
+                <span>Pajak (10%)</span>
                 <span>Rp {{ formatPrice(tax) }}</span>
             </div>
             
@@ -84,7 +84,7 @@
             </button>
             
             <router-link to="/produk" class="continue-shopping">
-                Continue Shopping
+                Lanjut Belanja
             </router-link>
             </div>
         </div>
@@ -160,7 +160,7 @@ export default {
       // Simulate API call
       setTimeout(() => {
         this.isProcessing = false
-        this.$router.push('/checkout')
+        this.$router.push('/keranjang/checkout')
       }, 1500)
     }
   }

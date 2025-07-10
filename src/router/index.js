@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 import Home from '../views/Home.vue'
-import Akun from '../views/Akun.vue'
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -10,12 +10,10 @@ const router = createRouter({
 			component: Home
 		},
         {
-            path: '/akun',
-            component: Akun,
-            name: Akun
+            path: '/akun', component: () => import('@/views/Akun.vue'), meta: { requiresAuth: true }
         },
         {
-            path: '/checkout',
+            path: '/keranjang/checkout',
             component: () => import('../views/checkout.vue')
         },
         {
@@ -44,17 +42,33 @@ const router = createRouter({
         },
         {
             path: '/settings',
-            component: () => import('../views/settings.vue')
+            component: () => import('../views/settings.vue'),
+            meta: { requiresAuth: true }
         },
         {
             path: '/contact',
             component: () => import('../views/contact.vue')
         },
          {
-            path: '/konfirmasi-order',
+            path: '/keranjang/checkout/konfirmasi-order',
             component: () => import('../views/konfirmasi-order.vue')
+        },
+        {
+            path: '/databarang',
+            component: () => import('../views/databarang.vue')
         },
 	],
 })
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  
+  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
 
 export default router

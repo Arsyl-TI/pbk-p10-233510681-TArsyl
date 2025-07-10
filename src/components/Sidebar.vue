@@ -32,17 +32,25 @@
 				<span class="material-icons">history</span>
 				<span class="text">Transaksi</span>
 			</router-link>
+			<router-link v-if="!isAuthenticated" to="/login" class="button"> 
+				<span class="material-icons">login</span>
+				<span class="text">Login</span>
+			</router-link>
+			<router-link v-if="!isAuthenticated" to="/register" class="button"> 
+				<span class="material-icons">add_box</span>
+				<span class="text">Register</span>
+			</router-link>
 			<router-link to="/akun" class="button"> 
 				<span class="material-icons">account_circle</span>
 				<span class="text">Akun</span>
 			</router-link>
-			<router-link to="/login" class="button"> 
-				<span class="material-icons">login</span>
-				<span class="text">Login</span>
-			</router-link>
-			<router-link to="/register" class="button"> 
-				<span class="material-icons">add_box</span>
-				<span class="text">Register</span>
+			<button v-if="isAuthenticated" class="button" @click="userStore.logout()">
+        		<span class="material-icons">logout</span>
+        		<span class="text">Logout</span>
+      		</button>
+			<router-link to="/databarang" class="button"> 
+				<span class="material-icons">inventory_2</span>
+				<span class="text">Data Barang</span>
 			</router-link>
 			<router-link to="/contact" class="button"> 
 				<span class="material-icons">contacts</span>
@@ -53,7 +61,7 @@
 		<div class="flex"></div>
 		
 		<div class="menu">
-			<router-link to="/settings" class="button">
+			<router-link to="/settings" class="button" v-if="isAuthenticated">
 				<span class="material-icons">settings</span>
 				<span class="text">Settings</span>
 			</router-link>
@@ -63,14 +71,17 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 import logoURL from '../assets/logo.png'
 
+const userStore = useUserStore()
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
 	localStorage.setItem("is_expanded", is_expanded.value)
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -88,63 +99,61 @@ aside {
 
 	transition: 0.2s ease-in-out;
 
-	.flex {
-		flex: 1 1 0%;
+.flex {
+	flex: 1 1 0%;
+}
+
+.logo {
+	margin-bottom: 1rem;
+
+	img {
+		width: 2rem;
 	}
+}
 
-	.logo {
-		margin-bottom: 1rem;
+.menu-toggle-wrap {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 1rem;
 
-		img {
-			width: 2rem;
+	position: relative;
+	top: 0;
+	transition: 0.2s ease-in-out;
+
+.menu-toggle {
+	transition: 0.2s ease-in-out;
+.material-icons {
+	font-size: 2rem;
+	color: var(--light);
+	transition: 0.2s ease-out;
+}			
+&:hover {
+	.material-icons {
+		color: var(--primary);
+		transform: translateX(0.5rem);
 		}
 	}
+}
+}
+h3, .button .text {
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
 
-	.menu-toggle-wrap {
-		display: flex;
-		justify-content: flex-end;
-		margin-bottom: 1rem;
+h3 {
+	color: var(--grey);
+	font-size: 0.875rem;
+	margin-bottom: 0.5rem;
+	text-transform: uppercase;
+}
 
-		position: relative;
-		top: 0;
-		transition: 0.2s ease-in-out;
+.menu {
+	margin: 0 -1rem;
 
-		.menu-toggle {
-			transition: 0.2s ease-in-out;
-			.material-icons {
-				font-size: 2rem;
-				color: var(--light);
-				transition: 0.2s ease-out;
-			}
-			
-			&:hover {
-				.material-icons {
-					color: var(--primary);
-					transform: translateX(0.5rem);
-				}
-			}
-		}
-	}
-
-	h3, .button .text {
-		opacity: 0;
-		transition: opacity 0.3s ease-in-out;
-	}
-
-	h3 {
-		color: var(--grey);
-		font-size: 0.875rem;
-		margin-bottom: 0.5rem;
-		text-transform: uppercase;
-	}
-
-	.menu {
-		margin: 0 -1rem;
-
-		.button {
-			display: flex;
-			align-items: center;
-			text-decoration: none;
+.button {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
 
 			transition: 0.2s ease-in-out;
 			padding: 0.5rem 1rem;

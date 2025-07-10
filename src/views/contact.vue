@@ -16,7 +16,7 @@
             required
             class="form-input"
           >
-          <label for="name" class="form-label">Your Name</label>
+          <label for="name" class="form-label">Nama</label>
           <div class="underline"></div>
         </div>
 
@@ -52,7 +52,7 @@
             rows="5"
             class="form-textarea"
           ></textarea>
-          <label for="message" class="form-label">Your Message</label>
+          <label for="message" class="form-label">Pesan Anda</label>
           <div class="underline"></div>
         </div>
 
@@ -118,6 +118,7 @@
 </template>
 
 <script setup>
+// src/views/contact.vue
 import { ref } from 'vue';
 
 const formData = ref({

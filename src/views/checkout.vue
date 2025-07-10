@@ -1,3 +1,124 @@
+<script>
+// src/views/checkout.vue
+export default {
+  name: 'CheckoutPage',
+  data() {
+    return {
+      currentStep: 1,
+      isProcessing: false,
+      shippingInfo: {
+        firstName: '',
+        lastName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        country: '',
+        phone: ''
+      },
+      shippingMethods: [
+        { id: 'standard', name: 'Standard Shipping', price: 15000, duration: '3-5 business days' },
+        { id: 'express', name: 'Express Shipping', price: 30000, duration: '1-2 business days' },
+        { id: 'same-day', name: 'Same Day Delivery', price: 50000, duration: 'Today' }
+      ],
+      selectedShippingMethod: 'standard',
+      paymentMethods: [
+        { id: 'credit-card', name: 'Credit Card', logo: 'https://cdn-icons-png.flaticon.com/512/196/196578.png' },
+        { id: 'bank-transfer', name: 'Bank Transfer', logo: 'https://cdn-icons-png.flaticon.com/512/2331/2331895.png' },
+        { id: 'gopay', name: 'GoPay', logo: 'https://cdn-icons-png.flaticon.com/512/2504/2504903.png' },
+        { id: 'ovo', name: 'OVO', logo: 'https://cdn-icons-png.flaticon.com/512/2504/2504920.png' }
+      ],
+      selectedPaymentMethod: 'credit-card',
+      paymentInfo: {
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        cardName: ''
+      },
+      cartItems: [
+        {
+          id: 1,
+          name: 'Wireless Bluetooth Headphones',
+          price: 1200000,
+          quantity: 1,
+          image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        },
+        {
+          id: 2,
+          name: 'Smart Watch Pro',
+          price: 2500000,
+          quantity: 1,
+          image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        }
+      ]
+    }
+  },
+  computed: {
+    selectedShippingMethodObj() {
+      return this.shippingMethods.find(method => method.id === this.selectedShippingMethod) || {}
+    },
+    selectedPaymentMethodObj() {
+      return this.paymentMethods.find(method => method.id === this.selectedPaymentMethod) || {}
+    },
+    subtotal() {
+      return this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    },
+    tax() {
+      return this.subtotal * 0.1 // 10% tax
+    },
+    total() {
+      return this.subtotal + this.selectedShippingMethodObj.price + this.tax
+    }
+  },
+  methods: {
+    formatPrice(price) {
+      return new Intl.NumberFormat('id-ID').format(price)
+    },
+    nextStep() {
+      if (this.currentStep < 3) {
+        this.currentStep++
+      }
+    },
+    prevStep() {
+      if (this.currentStep > 1) {
+        this.currentStep--
+      }
+    },
+    formatCardNumber() {
+      // Remove all non-digit characters
+      let value = this.paymentInfo.cardNumber.replace(/\D/g, '')
+      
+      // Add space after every 4 digits
+      value = value.replace(/(\d{4})(?=\d)/g, '$1 ')
+      
+      // Limit to 16 digits (4 groups of 4)
+      value = value.substring(0, 19)
+      
+      this.paymentInfo.cardNumber = value
+    },
+    formatExpiryDate() {
+      // Remove all non-digit characters
+      let value = this.paymentInfo.expiryDate.replace(/\D/g, '')
+      
+      // Add slash after 2 digits (MM/YY)
+      if (value.length > 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4)
+      }
+      
+      this.paymentInfo.expiryDate = value
+    },
+    placeOrder() {
+      this.isProcessing = true
+      
+      // Simulate API call
+      setTimeout(() => {
+        this.isProcessing = false
+        this.$router.push('/keranjang/checkout/konfirmasi-order')
+      }, 2000)
+    }
+  }
+}
+</script>
+
 <template>
     <main id="checkout">
         <div class="checkout-container">
@@ -265,126 +386,6 @@
         </div>
     </main>
 </template>
-
-<script>
-export default {
-  name: 'CheckoutPage',
-  data() {
-    return {
-      currentStep: 1,
-      isProcessing: false,
-      shippingInfo: {
-        firstName: '',
-        lastName: '',
-        address: '',
-        city: '',
-        postalCode: '',
-        country: '',
-        phone: ''
-      },
-      shippingMethods: [
-        { id: 'standard', name: 'Standard Shipping', price: 15000, duration: '3-5 business days' },
-        { id: 'express', name: 'Express Shipping', price: 30000, duration: '1-2 business days' },
-        { id: 'same-day', name: 'Same Day Delivery', price: 50000, duration: 'Today' }
-      ],
-      selectedShippingMethod: 'standard',
-      paymentMethods: [
-        { id: 'credit-card', name: 'Credit Card', logo: 'https://cdn-icons-png.flaticon.com/512/196/196578.png' },
-        { id: 'bank-transfer', name: 'Bank Transfer', logo: 'https://cdn-icons-png.flaticon.com/512/2331/2331895.png' },
-        { id: 'gopay', name: 'GoPay', logo: 'https://cdn-icons-png.flaticon.com/512/2504/2504903.png' },
-        { id: 'ovo', name: 'OVO', logo: 'https://cdn-icons-png.flaticon.com/512/2504/2504920.png' }
-      ],
-      selectedPaymentMethod: 'credit-card',
-      paymentInfo: {
-        cardNumber: '',
-        expiryDate: '',
-        cvv: '',
-        cardName: ''
-      },
-      cartItems: [
-        {
-          id: 1,
-          name: 'Wireless Bluetooth Headphones',
-          price: 1200000,
-          quantity: 1,
-          image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-          id: 2,
-          name: 'Smart Watch Pro',
-          price: 2500000,
-          quantity: 1,
-          image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-        }
-      ]
-    }
-  },
-  computed: {
-    selectedShippingMethodObj() {
-      return this.shippingMethods.find(method => method.id === this.selectedShippingMethod) || {}
-    },
-    selectedPaymentMethodObj() {
-      return this.paymentMethods.find(method => method.id === this.selectedPaymentMethod) || {}
-    },
-    subtotal() {
-      return this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-    },
-    tax() {
-      return this.subtotal * 0.1 // 10% tax
-    },
-    total() {
-      return this.subtotal + this.selectedShippingMethodObj.price + this.tax
-    }
-  },
-  methods: {
-    formatPrice(price) {
-      return new Intl.NumberFormat('id-ID').format(price)
-    },
-    nextStep() {
-      if (this.currentStep < 3) {
-        this.currentStep++
-      }
-    },
-    prevStep() {
-      if (this.currentStep > 1) {
-        this.currentStep--
-      }
-    },
-    formatCardNumber() {
-      // Remove all non-digit characters
-      let value = this.paymentInfo.cardNumber.replace(/\D/g, '')
-      
-      // Add space after every 4 digits
-      value = value.replace(/(\d{4})(?=\d)/g, '$1 ')
-      
-      // Limit to 16 digits (4 groups of 4)
-      value = value.substring(0, 19)
-      
-      this.paymentInfo.cardNumber = value
-    },
-    formatExpiryDate() {
-      // Remove all non-digit characters
-      let value = this.paymentInfo.expiryDate.replace(/\D/g, '')
-      
-      // Add slash after 2 digits (MM/YY)
-      if (value.length > 2) {
-        value = value.substring(0, 2) + '/' + value.substring(2, 4)
-      }
-      
-      this.paymentInfo.expiryDate = value
-    },
-    placeOrder() {
-      this.isProcessing = true
-      
-      // Simulate API call
-      setTimeout(() => {
-        this.isProcessing = false
-        this.$router.push('/konfirmasi-order')
-      }, 2000)
-    }
-  }
-}
-</script>
 
 <style scoped>
 .checkout-container {
