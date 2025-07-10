@@ -23,10 +23,3 @@ A complete Vue.js e-commerce solution with product browsing, cart functionality,
 
 ```sh
 npm install
-
-npm run dev
-
-npm run build
-
-
-This project provides a solid foundation for an e-commerce platform that can be extended with additional features as needed. The modular Vue.js architecture makes it easy to maintain and expand functionality.
