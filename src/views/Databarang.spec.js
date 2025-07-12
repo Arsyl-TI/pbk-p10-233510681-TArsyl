@@ -44,7 +44,7 @@ describe('Databarang.vue', () => {
   })
 
   it('fetches barang data on mount', async () => {
-    expect(axios.get).toHaveBeenCalledWith('http://localhost:3004/barang')
+    expect(axios.get).toHaveBeenCalledWith('https://fake-json-chi.vercel.app/barang')
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.daftarBarang).toEqual(mockBarang)
   })
@@ -121,7 +121,7 @@ describe('Databarang.vue', () => {
     await wrapper.find('form').trigger('submit.prevent')
     
     expect(axios.put).toHaveBeenCalledWith(
-      `http://localhost:3004/barang/1`,
+      `https://fake-json-chi.vercel.app/barang/1`,
       expect.objectContaining({ harga: 11000000 })
     )
   })
@@ -158,7 +158,7 @@ describe('Databarang.vue', () => {
     await wrapper.findAll('.btn-danger')[0].trigger('click')
     
     expect(window.confirm).toHaveBeenCalled()
-    expect(axios.delete).toHaveBeenCalledWith('http://localhost:3004/barang/1')
+    expect(axios.delete).toHaveBeenCalledWith('https://fake-json-chi.vercel.app/barang/1')
   })
 
   it('formats harga correctly', () => {
